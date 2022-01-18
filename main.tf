@@ -18,10 +18,14 @@ resource "tfe_workspace" "default" {
   tag_names                     = var.tag_names
   working_directory             = var.working_directory
 
-  vcs_repo {
-    identifier         = var.identifier
-    branch             = var.branch
-    ingress_submodules = var.ingress_submodules
-    oauth_token_id     = var.oauth_token_id
+  dynamic "vcs_repo" {
+    for_each = var.identifier != null ? [1] : []
+
+    content {
+      identifier         = var.identifier
+      branch             = var.branch
+      ingress_submodules = var.ingress_submodules
+      oauth_token_id     = var.oauth_token_id
+    }
   }
 }

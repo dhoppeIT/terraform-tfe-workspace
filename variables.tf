@@ -106,6 +106,7 @@ variable "working_directory" {
 
 variable "identifier" {
   type        = string
+  default     = null
   description = "A reference to your VCS repository in the format <organization>/<repository>"
 }
 
@@ -123,5 +124,6 @@ variable "ingress_submodules" {
 
 variable "oauth_token_id" {
   type        = string
+  default     = null
   description = "The VCS Connection (OAuth Connection + Token) to use"
 }

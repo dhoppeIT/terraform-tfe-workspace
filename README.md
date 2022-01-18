@@ -11,6 +11,8 @@ Terraform module to manage the Terraform Cloud/Enterprise resource
 
 Copy and paste into your Terraform configuration, insert the variables and run ```terraform init```:
 
+**Create workspace (without VCS connection):**
+
 ```hcl
 module "tfe-organization" {
   source = "dhoppeIT/organization/tfe"
@@ -24,6 +26,38 @@ module "tfe-workspace" {
 
   name         = "terraform"
   organization = module.tfe-organization.name
+}
+```
+
+**Create workspace (with VCS connection):**
+
+```hcl
+module "tfe-organization" {
+  source = "dhoppeIT/organization/tfe"
+
+  name  = "dhoppeIT"
+  email = "terraform@dhoppe.it"
+}
+
+module "tfe-oauth_client" {
+  source = "dhoppeIT/oauth_client/tfe"
+
+  organization     = "dhoppeIT"
+  api_url          = "https://api.github.com"
+  http_url         = "https://github.com"
+  oauth_token      = "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"
+  service_provider = "github"
+}
+
+module "tfe-workspace" {
+  source = "dhoppeIT/workspace/tfe"
+
+  name         = "terraform"
+  organization = module.tfe-organization.name
+
+  identifier     = "dhoppeIT/terraform-tfe-config"
+  branch         = "main"
+  oauth_token_id = module.tfe-oauth_client.oauth_token_id
 }
 ```
 
