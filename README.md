@@ -11,6 +11,8 @@ Terraform module to manage the Terraform Cloud/Enterprise resource
 
 Copy and paste into your Terraform configuration, insert the variables and run ```terraform init```:
 
+**Create workspace (without VCS connection):**
+
 ```hcl
 module "tfe-organization" {
   source = "dhoppeIT/organization/tfe"
@@ -24,6 +26,38 @@ module "tfe-workspace" {
 
   name         = "terraform"
   organization = module.tfe-organization.name
+}
+```
+
+**Create workspace (with VCS connection):**
+
+```hcl
+module "tfe-organization" {
+  source = "dhoppeIT/organization/tfe"
+
+  name  = "dhoppeIT"
+  email = "terraform@dhoppe.it"
+}
+
+module "tfe-oauth_client" {
+  source = "dhoppeIT/oauth_client/tfe"
+
+  organization     = "dhoppeIT"
+  api_url          = "https://api.github.com"
+  http_url         = "https://github.com"
+  oauth_token      = "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"
+  service_provider = "github"
+}
+
+module "tfe-workspace" {
+  source = "dhoppeIT/workspace/tfe"
+
+  name         = "terraform"
+  organization = module.tfe-organization.name
+
+  identifier     = "dhoppeIT/terraform-tfe-config"
+  branch         = "main"
+  oauth_token_id = module.tfe-oauth_client.oauth_token_id
 }
 ```
 
@@ -63,10 +97,10 @@ No modules.
 | <a name="input_execution_mode"></a> [execution\_mode](#input\_execution\_mode) | Which execution mode to use | `string` | `"remote"` | no |
 | <a name="input_file_triggers_enabled"></a> [file\_triggers\_enabled](#input\_file\_triggers\_enabled) | Whether to filter runs based on the changed files in a VCS push | `bool` | `true` | no |
 | <a name="input_global_remote_state"></a> [global\_remote\_state](#input\_global\_remote\_state) | Whether the workspace allows all workspaces in the organization to access its state data during runs | `bool` | `false` | no |
-| <a name="input_identifier"></a> [identifier](#input\_identifier) | A reference to your VCS repository in the format <organization>/<repository> | `string` | n/a | yes |
+| <a name="input_identifier"></a> [identifier](#input\_identifier) | A reference to your VCS repository in the format <organization>/<repository> | `string` | `null` | no |
 | <a name="input_ingress_submodules"></a> [ingress\_submodules](#input\_ingress\_submodules) | Whether submodules should be fetched when cloning the VCS repository | `bool` | `false` | no |
 | <a name="input_name"></a> [name](#input\_name) | Name of the workspace | `string` | n/a | yes |
-| <a name="input_oauth_token_id"></a> [oauth\_token\_id](#input\_oauth\_token\_id) | The VCS Connection (OAuth Connection + Token) to use | `string` | n/a | yes |
+| <a name="input_oauth_token_id"></a> [oauth\_token\_id](#input\_oauth\_token\_id) | The VCS Connection (OAuth Connection + Token) to use | `string` | `null` | no |
 | <a name="input_organization"></a> [organization](#input\_organization) | Name of the organization | `string` | n/a | yes |
 | <a name="input_queue_all_runs"></a> [queue\_all\_runs](#input\_queue\_all\_runs) | Whether the workspace should start automatically performing runs immediately after its creation | `bool` | `true` | no |
 | <a name="input_remote_state_consumer_ids"></a> [remote\_state\_consumer\_ids](#input\_remote\_state\_consumer\_ids) | The set of workspace IDs set as explicit remote state consumers for the given workspace | `list(string)` | `[]` | no |
