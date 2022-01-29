@@ -14,32 +14,32 @@ Copy and paste into your Terraform configuration, insert the variables and run `
 **Create workspace (without VCS connection):**
 
 ```hcl
-module "tfe-organization" {
+module "tfe_organization" {
   source = "dhoppeIT/organization/tfe"
 
   name  = "dhoppeIT"
   email = "terraform@dhoppe.it"
 }
 
-module "tfe-workspace" {
+module "tfe_workspace" {
   source = "dhoppeIT/workspace/tfe"
 
   name         = "terraform"
-  organization = module.tfe-organization.name
+  organization = module.tfe_organization.name
 }
 ```
 
 **Create workspace (with VCS connection):**
 
 ```hcl
-module "tfe-organization" {
+module "tfe_organization" {
   source = "dhoppeIT/organization/tfe"
 
   name  = "dhoppeIT"
   email = "terraform@dhoppe.it"
 }
 
-module "tfe-oauth_client" {
+module "tfe_oauth_client" {
   source = "dhoppeIT/oauth_client/tfe"
 
   organization     = "dhoppeIT"
@@ -49,15 +49,15 @@ module "tfe-oauth_client" {
   service_provider = "github"
 }
 
-module "tfe-workspace" {
+module "tfe_workspace" {
   source = "dhoppeIT/workspace/tfe"
 
   name         = "terraform"
-  organization = module.tfe-organization.name
+  organization = module.tfe_organization.name
 
   identifier     = "dhoppeIT/terraform-tfe-config"
   branch         = "main"
-  oauth_token_id = module.tfe-oauth_client.oauth_token_id
+  oauth_token_id = module.tfe_oauth_client.oauth_token_id
 }
 ```
 
