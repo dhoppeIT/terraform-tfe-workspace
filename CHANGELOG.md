@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.2.1](https://github.com/dhoppeIT/terraform-tfe-workspace/compare/v0.2.0...v0.2.1) (2022-01-31)
+
+
+### Bug Fixes
+
+* Allow new minor releases ([#18](https://github.com/dhoppeIT/terraform-tfe-workspace/issues/18)) ([100b4cb](https://github.com/dhoppeIT/terraform-tfe-workspace/commit/100b4cb0b84482244d366c756e3e6993205930a2))
+
 ## [0.2.0](https://github.com/dhoppeIT/terraform-tfe-workspace/compare/v0.1.0...v0.2.0) (2022-01-18)
 
 
