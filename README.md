@@ -42,7 +42,7 @@ module "tfe_workspace" {
 
 | Name | Version |
 |------|---------|
-| <a name="provider_tfe"></a> [tfe](#provider\_tfe) | 0.38.0 |
+| <a name="provider_tfe"></a> [tfe](#provider\_tfe) | 0.39.0 |
 
 ## Modules
 
